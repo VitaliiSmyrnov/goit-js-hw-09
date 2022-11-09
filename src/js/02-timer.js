@@ -9,6 +9,7 @@ const secondsEl = document.querySelector('[data-seconds]');
 
 btnStartEl.setAttribute("disabled", "");
 let selectedDate;
+let timerId = null;
 
 const options = {
    enableTime: true,
@@ -27,10 +28,21 @@ const options = {
    },
 };
 flatpickr("#datetime-picker", options);
-// console.log('oj pfdujl');
+
+function durationTime() {
+   const currentDate = new Date();
+   const durationTime = selectedDate.getTime() - currentDate.getTime();
+   const textTime = convertMs(durationTime);
+ 
+   daysEl.textContent = textTime.days;
+   hoursEl.textContent = textTime.hours;
+   minutesEl.textContent = textTime.minutes;
+   secondsEl.textContent = textTime.seconds;
+}
+
 btnStartEl.addEventListener('click', () => {
-console.log(selectedDate);
-   console.log('Тисну на кнопку');
+   timerId = setInterval(durationTime, 1000);
+   btnStartEl.setAttribute("disabled", "");
 });
 
 function convertMs(ms) {
