@@ -9,10 +9,15 @@ const btnElem = document.querySelector('.form button');
 
 btnElem.addEventListener('click', (e) => {
   e.preventDefault();
-  const times = inputAmountElem.value;
-  console.log(times);
-  for (let i = 0; i < times; i += 1) {
-    createPromise(position, delay)
+  const delay = inputDelayElem.value;
+  const step = inputDelayStepElem.value;
+  const amount = inputAmountElem.value;
+  if (delay === '' || step === '' || amount === '') {
+    Notify.failure("Please, fill in all the fields");
+  } else {
+    for (let i = 0; i < amount; i += 1) {
+      // createPromise(position, delay)
+    }
   }
 });
 
