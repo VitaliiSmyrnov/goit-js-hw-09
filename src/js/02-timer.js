@@ -18,32 +18,35 @@ const options = {
    defaultDate: new Date(),
    minuteIncrement: 1,
    onClose(selectedDates) {
-      if (options.defaultDate >= selectedDates[0]) {
+      if (options.defaultDate > selectedDates[0]) {
          Notify.failure("Please choose a date in the future");
       } else {
          btnStartEl.removeAttribute("disabled");
-         console.log(selectedDates[0]);
          selectedDate = selectedDates[0];
-      }
-      
+      } 
    },
 };
 flatpickr("#datetime-picker", options);
 
 btnStartEl.addEventListener('click', () => {
-   timerId = setInterval(durationTime, 1000);
    btnStartEl.setAttribute("disabled", "");
+   
+   timerId = setInterval(durationTime, 1000);
 });
 
 function durationTime() {
    const currentDate = new Date();
-   const durationTime = selectedDate.getTime() - currentDate.getTime();
-   const textTime = convertMs(durationTime);
+   const timeDifference = selectedDate.getTime() - currentDate.getTime();
+   const textTime = convertMs(timeDifference);
  
    daysEl.textContent = addLeadingZero(textTime.days);
    hoursEl.textContent = addLeadingZero(textTime.hours);
    minutesEl.textContent = addLeadingZero(textTime.minutes);
    secondsEl.textContent = addLeadingZero(textTime.seconds);
+   
+   if (timeDifference < 1000) {
+      clearInterval(timerId);
+   }
 }
 
 function addLeadingZero(value) {
@@ -69,8 +72,5 @@ function convertMs(ms) {
  
    return { days, hours, minutes, seconds };
  }
- 
- console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
- console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
- console.log(convertMs(151624140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+
 
