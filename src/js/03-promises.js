@@ -12,16 +12,16 @@ btnElem.addEventListener('click', (e) => {
   const delay = inputDelayElem.value;
   const step = inputDelayStepElem.value;
   const amount = inputAmountElem.value;
-  if (delay === '' || step === '' || amount === '') {
-    Notify.failure("Please, fill in all the fields");
+
+  if ((delay === '' || delay < 0) || (step === '' || step < 0) || (amount === '' || amount < 0)) {
+    Notify.failure("Please, fill in all the fields, value must be positive or zero");
   } else {
-    for (let i = 0; i < amount; i += 1) {
-      // createPromise(position, delay)
+    for (let position = 1; position <= amount; position += 1) {
+      createPromise(position, delay);
+      delay += step;
     }
   }
 });
-
-
 
 function createPromise(position, delay) {
   const shouldResolve = Math.random() > 0.3;
